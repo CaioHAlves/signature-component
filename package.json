@@ -1,0 +1,62 @@
+{
+  "version": "0.1.8",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "src"
+  ],
+  "engines": {
+    "node": ">=10"
+  },
+  "scripts": {
+    "start": "tsdx watch",
+    "build": "tsdx build",
+    "test": "tsdx test --passWithNoTests",
+    "lint": "tsdx lint",
+    "prepare": "tsdx build",
+    "size": "size-limit",
+    "analyze": "size-limit --why",
+    "deploy": "npm version patch && npm publish"
+  },
+  "peerDependencies": {
+    "react": ">=16"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "tsdx lint"
+    }
+  },
+  "prettier": {
+    "printWidth": 80,
+    "semi": true,
+    "singleQuote": true,
+    "trailingComma": "es5"
+  },
+  "name": "drawin-for-react",
+  "author": "CaioHAlves",
+  "module": "dist/drawin-for-react.esm.js",
+  "size-limit": [
+    {
+      "path": "dist/drawin-for-react.cjs.production.min.js",
+      "limit": "10 KB"
+    },
+    {
+      "path": "dist/drawin-for-react.esm.js",
+      "limit": "10 KB"
+    }
+  ],
+  "devDependencies": {
+    "@size-limit/preset-small-lib": "^8.2.6",
+    "@types/react": "^18.2.15",
+    "@types/react-dom": "^18.2.7",
+    "husky": "^8.0.3",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "size-limit": "^8.2.6",
+    "tsdx": "^0.14.1",
+    "tslib": "^2.6.0",
+    "typescript": "^5.1.6"
+  }
+}
