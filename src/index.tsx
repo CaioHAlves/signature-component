@@ -12,9 +12,10 @@ export interface Props {
 
 export function clearDrawing() {
   const canvas = document.getElementById("canvasId") as HTMLCanvasElement | null
+  const context = canvas ? canvas.getContext("2d") : null
 
-  if (canvas) {
-    canvas.getContext('2d')?.clearRect(0,0, canvas.width, canvas.height)
+  if (context && canvas) {
+    context.clearRect(0,0, canvas.width, canvas.height)
   }
 }
 

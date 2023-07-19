@@ -45,12 +45,6 @@ export function usePaint({
     }
   }
 
-  function clearDrawing() {
-    if (canvasRef.current) {
-      canvasRef.current.getContext('2d')?.clearRect(0,0, canvasRef.current.width, canvasRef.current.height)
-    }
-  }
-
   useEffect(() => {
     function computePointInCanvas(clientX: number, clientY: number) {
       if (canvasRef.current) {
@@ -111,5 +105,5 @@ export function usePaint({
     }
   }, [canvasRef.current])
 
-  return { onCanvasMouseDown, canvasRef, clearDrawing }
+  return { onCanvasMouseDown, canvasRef }
 }
