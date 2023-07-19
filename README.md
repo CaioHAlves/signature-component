@@ -1,13 +1,13 @@
 # Install
 ````bash
-npm install drawin-for-react
+npm install drawing-for-react
 ````
 ````bash
-yarn add drawin-for-react
+yarn add drawing-for-react
 ````
 # Using
 ````js
-import { Drawing } from 'drawin-for-react';
+import { Drawing } from 'drawing-for-react';
 
 return (
   <Drawing
