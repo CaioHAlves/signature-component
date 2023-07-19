@@ -3,10 +3,11 @@ import { CanvasElement, PrevPoint } from './interfacesAndTypes'
 
 interface IUsePaint {
   lineWidth?: number;
-  penColor?: string
+  penColor?: string;
   drawingWidth?: string;
   drawingHeight?: string;
-  backgroundColor?: string
+  backgroundColor?: string;
+  border?: string;
 }
 
 export function usePaint({
@@ -14,10 +15,11 @@ export function usePaint({
   backgroundColor,
   drawingWidth,
   lineWidth,
-  penColor = "#000000"
+  penColor = "#000000",
+  border
 }: IUsePaint) {
-  const canvasRef = useRef<CanvasElement>(null)
-  const isDrawingRef = useRef(false)
+  const canvasRef = useRef<CanvasElement>(null);
+  const isDrawingRef = useRef(false);
   const prevPointRef = useRef<PrevPoint | null>(null);
 
   const mouseMoveListenerRef = useRef<any | null>(null);
@@ -99,7 +101,8 @@ export function usePaint({
     if (canvasRef.current) {
       canvasRef.current.style.width = drawingWidth || "100%";
       canvasRef.current.style.height = drawingHeight || "100%";
-      canvasRef.current.style.background = backgroundColor || "#FFFFFF"
+      canvasRef.current.style.background = backgroundColor || "#FFFFFF";
+      canvasRef.current.style.border = border || "inherit";
       canvasRef.current.width = canvasRef.current.offsetWidth;
       canvasRef.current.height = canvasRef.current.offsetHeight;
     }
