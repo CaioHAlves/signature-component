@@ -1,19 +1,29 @@
 import React from 'react';
 import { Meta, StoryFn } from '@storybook/react'
-import { Drawing, Props } from '..'
+import { Drawing, Props, clearDrawing } from '..'
+
+const ComponentForStorybook = (props: Props) => {
+  return (
+    <>
+      <button onClick={clearDrawing}>
+        Clear
+      </button>
+      <Drawing {...props} />
+    </>
+  )
+}
 
 const meta: Meta = {
-  component: Drawing,
+  component: ComponentForStorybook,
   title: "Drawing",
 }
 
 const divRoot = document.getElementById("storybook-root")
-const bodyEl = document.querySelector("body")
 const htmlEl = document.querySelector("html")
 
 export default meta
 
-const Template: StoryFn<Props> = args => <Drawing {...args} />
+const Template: StoryFn<Props> = args => <ComponentForStorybook {...args} />
 
 export const Default = Template.bind({})
 
@@ -25,15 +35,13 @@ Default.args = {
   backgroundColor: "#FFFFFF"
 }
 
-if (bodyEl && bodyEl.style) {
-  bodyEl.style.height = "100%"
-  bodyEl.style.width = "100%"
-}
 if (divRoot && divRoot.style) {
   divRoot.style.height = "100%"
   divRoot.style.width = "100%"
+  divRoot.style.overflow = "auto"
 }
 if (htmlEl && htmlEl.style) {
-  htmlEl.style.height = "100%"
-  htmlEl.style.width = "100%"
+  htmlEl.style.height = "100vh"
+  htmlEl.style.width = "100vw"
+  htmlEl.style.overflow = "hidden"
 }
