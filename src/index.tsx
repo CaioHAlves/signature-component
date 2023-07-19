@@ -1,14 +1,15 @@
 import React, { useEffect, useRef } from 'react';
 import { PrevPoint, CanvasElement } from './interfacesAndTypes';
 
-interface Props {
+export interface Props {
   lineWidth?: number;
+  penColor?: string
   drawingWidth?: string;
   drawingHeight?: string;
   backgroundColor?: string
 }
 
-export const Drawing = ({ lineWidth = 5, drawingHeight = "50%", drawingWidth = "50%", backgroundColor = "#FFFFFF" }: Props) => {
+export const Drawing = ({ lineWidth = 5, drawingHeight = "50%", drawingWidth = "50%", backgroundColor = "#FFFFFF", penColor = "#000000" }: Props) => {
 
   const canvasRef = useRef<CanvasElement>(null)
   const isDrawingRef = useRef(false)
@@ -27,11 +28,12 @@ export const Drawing = ({ lineWidth = 5, drawingHeight = "50%", drawingWidth = "
       prevPoint = prevPoint ?? point;
       ctx.beginPath();
       ctx.lineWidth = lineWidth;
-      ctx.strokeStyle = "#000000";
+      ctx.strokeStyle = penColor;
       ctx.moveTo(prevPoint!.x, prevPoint!.y);
       ctx.lineTo(point!.x, point!.y);
       ctx.stroke();
 
+      ctx.fillStyle = penColor;
       ctx.beginPath();
       ctx.arc(prevPoint!.x, prevPoint!.y, 2, 0, 2 * Math.PI);
       ctx.fill();
