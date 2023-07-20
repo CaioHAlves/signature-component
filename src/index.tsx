@@ -1,5 +1,4 @@
-import React from 'react';
-import { usePaint } from './usePaint';
+import React, { useEffect, useRef } from 'react';
 
 export interface Props {
   lineWidth?: number;
@@ -31,26 +30,82 @@ export function getImage(): string {
 
 export const Drawing = ({ 
   lineWidth = 5, 
-  drawingHeight = "50%", 
-  drawingWidth = "50%", 
-  backgroundColor = "#FFFFFF", 
-  penColor,
+  drawingHeight, 
+  drawingWidth, 
+  backgroundColor, 
+  penColor = "red",
   border
 }: Props) => {
 
-  const { onCanvasMouseDown, canvasRef } = usePaint({
-    backgroundColor,
-    drawingHeight,
-    drawingWidth,
-    lineWidth,
-    penColor,
-    border
-  })
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  let draw_bool = false;
+  let mouseX = 0;
+  let mouseY = 0;
+
+  const getXY = (e: MouseEvent | TouchEvent) => {
+    if (e instanceof TouchEvent) {
+      mouseX = e.touches[0].pageX - canvasRef.current!.getBoundingClientRect().left
+      mouseY = e.touches[0].pageY - canvasRef.current!.getBoundingClientRect().top
+    } else {
+      mouseX = e.pageX - canvasRef.current!.getBoundingClientRect().left
+      mouseY = e.pageY - canvasRef.current!.getBoundingClientRect().top
+    }
+  }
+
+  const stopDrawing = () => {
+    if (canvasRef.current) {
+      const context = canvasRef.current.getContext("2d")
+      context!.beginPath()
+      draw_bool = false;
+    }
+  }
+
+  const startDrawing = (e: MouseEvent | TouchEvent) => {
+    draw_bool = true;
+    getXY(e);
+    //Start Drawing
+    const context = canvasRef.current!.getContext("2d")
+    context!.beginPath();
+    context!.moveTo(mouseX, mouseY);
+  }
+
+  const drawOnCanvas = (e: MouseEvent | TouchEvent) => {
+    if (e instanceof TouchEvent) {
+      e.preventDefault();
+    }
+    getXY(e);
+  
+    if (draw_bool) {
+      const context = canvasRef.current!.getContext("2d")
+      context!.strokeStyle = penColor || "#000000"
+      context!.lineWidth = lineWidth || 5
+      context!.lineTo(mouseX, mouseY);
+      context!.stroke();
+      context!.globalCompositeOperation = "source-over";
+    }
+  }
+
+  useEffect(() => {
+    if (canvasRef.current) {
+      canvasRef.current.style.width = drawingWidth || "100%";
+      canvasRef.current.style.height = drawingHeight || "100%";
+      canvasRef.current.style.background = backgroundColor || "#FFFFFF";
+      canvasRef.current.style.border = border || "inherit";
+      canvasRef.current.width = canvasRef.current.offsetWidth;
+      canvasRef.current.height = canvasRef.current.offsetHeight;
+    }
+  }, [canvasRef.current])
 
   return (
     <canvas
-      onMouseDown={onCanvasMouseDown}
       id="canvasId"
+      onMouseDown={(e) => startDrawing(e.nativeEvent)}
+      onMouseMove={(e) => drawOnCanvas(e.nativeEvent)}
+      onTouchStart={(e) => startDrawing(e.nativeEvent)}
+      onTouchMove={(e) => drawOnCanvas(e.nativeEvent)}
+      onTouchEnd={stopDrawing}
+      onMouseUp={stopDrawing}
+      onMouseLeave={stopDrawing}
       ref={canvasRef}
     />
   )
