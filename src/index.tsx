@@ -82,9 +82,6 @@ export const Drawing = ({
   }
 
   const drawOnCanvas = (e: MouseEvent | TouchEvent) => {
-    if (!isTouchDevice()) {
-      e.preventDefault()
-    }
     getXY(e);
   
     if (draw_bool) {
