@@ -42,11 +42,23 @@ export const Drawing = ({
   let mouseX = 0;
   let mouseY = 0;
 
+  const isTouchDevice = () => {
+    try {
+      //We try to create TouchEvent (it would fail for desktops and throw error)
+      document.createEvent("TouchEvent");
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
   const getXY = (e: MouseEvent | TouchEvent) => {
-    if (e instanceof TouchEvent) {
+    if (isTouchDevice()) {
+      e = e as TouchEvent
       mouseX = e.touches[0].pageX - canvasRef.current!.getBoundingClientRect().left
       mouseY = e.touches[0].pageY - canvasRef.current!.getBoundingClientRect().top
     } else {
+      e = e as MouseEvent
       mouseX = e.pageX - canvasRef.current!.getBoundingClientRect().left
       mouseY = e.pageY - canvasRef.current!.getBoundingClientRect().top
     }
@@ -70,6 +82,9 @@ export const Drawing = ({
   }
 
   const drawOnCanvas = (e: MouseEvent | TouchEvent) => {
+    if (!isTouchDevice()) {
+      e.preventDefault()
+    }
     getXY(e);
   
     if (draw_bool) {
