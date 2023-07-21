@@ -1,13 +1,13 @@
 # Install
 ````bash
-npm install drawing-for-react
+npm i drawing-react
 ````
 ````bash
-yarn add drawing-for-react
+yarn add drawing-react
 ````
 # Using
 ````js
-import { Drawing } from 'drawing-for-react';
+import { Drawing } from 'drawing-react';
 
 return (
   <Drawing
@@ -17,7 +17,7 @@ return (
 ````
 ## Clear
 ````js
-import { clearDrawing } from 'drawing-for-react';
+import { clearDrawing } from 'drawing-react';
 
 return (
   <button onClick={clearDrawing}>
