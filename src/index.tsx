@@ -44,19 +44,19 @@ export const Drawing = ({
 
   const getXY = (e: MouseEvent | TouchEvent) => {
     if (e instanceof TouchEvent) {
-      mouseX = e.touches[0].pageX - canvasRef.current!.getBoundingClientRect().left
-      mouseY = e.touches[0].pageY - canvasRef.current!.getBoundingClientRect().top
+      mouseX = e.touches[0].clientX - canvasRef.current!.getBoundingClientRect().left
+      mouseY = e.touches[0].clientY - canvasRef.current!.getBoundingClientRect().top
     } else {
-      mouseX = e.pageX - canvasRef.current!.getBoundingClientRect().left
-      mouseY = e.pageY - canvasRef.current!.getBoundingClientRect().top
+      mouseX = e.clientX - canvasRef.current!.getBoundingClientRect().left
+      mouseY = e.clientY - canvasRef.current!.getBoundingClientRect().top
     }
   }
 
   const stopDrawing = () => {
     if (canvasRef.current) {
+      draw_bool = false;
       const context = canvasRef.current.getContext("2d")
       context!.beginPath()
-      draw_bool = false;
     }
   }
 
@@ -101,6 +101,7 @@ export const Drawing = ({
       onTouchStart={(e) => startDrawing(e.nativeEvent)}
       onTouchMove={(e) => drawOnCanvas(e.nativeEvent)}
       onTouchEnd={stopDrawing}
+      onTouchCancel={stopDrawing}
       onMouseUp={stopDrawing}
       onMouseLeave={stopDrawing}
       ref={canvasRef}
