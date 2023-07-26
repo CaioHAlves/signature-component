@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 export interface Props {
   lineWidth?: number;
@@ -29,56 +29,68 @@ export function getImage(): string {
 }
 
 export const Drawing = ({ 
-  lineWidth = 5, 
+  lineWidth, 
   drawingHeight, 
   drawingWidth, 
   backgroundColor, 
-  penColor = "red",
+  penColor,
   border
 }: Props) => {
 
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  let draw_bool = false;
-  let mouseX = 0;
-  let mouseY = 0;
-
-  const getXY = (e: MouseEvent | TouchEvent) => {
-    if (e instanceof TouchEvent) {
-      mouseX = e.touches[0].clientX - canvasRef.current!.getBoundingClientRect().left
-      mouseY = e.touches[0].clientY - canvasRef.current!.getBoundingClientRect().top
-    } else {
-      mouseX = e.clientX - canvasRef.current!.getBoundingClientRect().left
-      mouseY = e.clientY - canvasRef.current!.getBoundingClientRect().top
-    }
-  }
+  const [drawBool, setDrawBool] = useState(false)
+  const [position, setPosition] = useState({ mouseX: 0, mouseY: 0 })
 
   const stopDrawing = () => {
     if (canvasRef.current) {
-      draw_bool = false;
+      setDrawBool(false)
       const context = canvasRef.current.getContext("2d")
       context!.beginPath()
     }
   }
 
   const startDrawing = (e: MouseEvent | TouchEvent) => {
-    draw_bool = true;
-    getXY(e);
-    //Start Drawing
+    setDrawBool(true);
+
     const context = canvasRef.current!.getContext("2d")
     context!.beginPath();
-    context!.moveTo(mouseX, mouseY);
+
+    if (e instanceof TouchEvent) {
+      setPosition({
+        mouseX: e.touches[0].clientX - canvasRef.current!.getBoundingClientRect().left,
+        mouseY: e.touches[0].clientY - canvasRef.current!.getBoundingClientRect().top
+      })
+    } else {
+      setPosition({
+        mouseX: e.clientX - canvasRef.current!.getBoundingClientRect().left,
+        mouseY: e.clientY - canvasRef.current!.getBoundingClientRect().top
+      })
+    }
   }
 
   const drawOnCanvas = (e: MouseEvent | TouchEvent) => {
-    getXY(e);
-  
-    if (draw_bool) {
-      const context = canvasRef.current!.getContext("2d")
-      context!.strokeStyle = penColor || "#000000"
-      context!.lineWidth = lineWidth || 5
-      context!.lineTo(mouseX, mouseY);
-      context!.stroke();
-      context!.globalCompositeOperation = "source-over";
+
+    if (drawBool && canvasRef.current) {
+      const context = canvasRef.current.getContext("2d")!
+      context.strokeStyle = penColor || "#000000"
+      context.lineWidth = lineWidth || 5
+      context.lineCap = "round"
+      context.lineTo(position.mouseX, position.mouseY);
+      context.moveTo(position.mouseX, position.mouseY);
+      context.stroke();
+      context.globalCompositeOperation = "source-over";
+    }
+
+    if (e instanceof TouchEvent) {
+      setPosition({
+        mouseX: e.touches[0].clientX - canvasRef.current!.getBoundingClientRect().left,
+        mouseY: e.touches[0].clientY - canvasRef.current!.getBoundingClientRect().top
+      })
+    } else {
+      setPosition({
+        mouseX: e.clientX - canvasRef.current!.getBoundingClientRect().left,
+        mouseY: e.clientY - canvasRef.current!.getBoundingClientRect().top
+      })
     }
   }
 
@@ -101,7 +113,6 @@ export const Drawing = ({
       onTouchStart={(e) => startDrawing(e.nativeEvent)}
       onTouchMove={(e) => drawOnCanvas(e.nativeEvent)}
       onTouchEnd={stopDrawing}
-      onTouchCancel={stopDrawing}
       onMouseUp={stopDrawing}
       onMouseLeave={stopDrawing}
       ref={canvasRef}
