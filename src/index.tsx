@@ -1,12 +1,11 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { CSSProperties, useEffect, useRef, useState } from 'react';
 
 export interface Props {
   lineWidth?: number;
   penColor?: string
   drawingWidth?: string;
   drawingHeight?: string;
-  backgroundColor?: string
-  border?: string
+  styles?: CSSProperties
 }
 
 export function clearDrawing() {
@@ -31,15 +30,23 @@ export function getImage(): string {
 export const Drawing = ({ 
   lineWidth, 
   drawingHeight, 
-  drawingWidth, 
-  backgroundColor, 
+  drawingWidth,
   penColor,
-  border
+  styles
 }: Props) => {
 
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const [drawBool, setDrawBool] = useState(false)
   const [position, setPosition] = useState({ mouseX: 0, mouseY: 0 })
+
+  useEffect(() => {
+    if (canvasRef.current) {
+      canvasRef.current.style.width = drawingWidth || "100%";
+      canvasRef.current.style.height = drawingHeight || "100%";
+      canvasRef.current.width = canvasRef.current.offsetWidth;
+      canvasRef.current.height = canvasRef.current.offsetHeight;
+    }
+  }, [canvasRef.current, drawingWidth, drawingHeight])
 
   const stopDrawing = () => {
     if (canvasRef.current) {
@@ -57,8 +64,8 @@ export const Drawing = ({
 
     if (e instanceof TouchEvent) {
       setPosition({
-        mouseX: e.touches[0].clientX - canvasRef.current!.getBoundingClientRect().left,
-        mouseY: e.touches[0].clientY - canvasRef.current!.getBoundingClientRect().top
+        mouseX: e.changedTouches[0].clientX - canvasRef.current!.getBoundingClientRect().left,
+        mouseY: e.changedTouches[0].clientY - canvasRef.current!.getBoundingClientRect().top
       })
     } else {
       setPosition({
@@ -76,15 +83,13 @@ export const Drawing = ({
       context.lineWidth = lineWidth || 5
       context.lineCap = "round"
       context.lineTo(position.mouseX, position.mouseY);
-      context.moveTo(position.mouseX, position.mouseY);
       context.stroke();
-      context.globalCompositeOperation = "source-over";
     }
 
     if (e instanceof TouchEvent) {
       setPosition({
-        mouseX: e.touches[0].clientX - canvasRef.current!.getBoundingClientRect().left,
-        mouseY: e.touches[0].clientY - canvasRef.current!.getBoundingClientRect().top
+        mouseX: e.changedTouches[0].clientX - canvasRef.current!.getBoundingClientRect().left,
+        mouseY: e.changedTouches[0].clientY - canvasRef.current!.getBoundingClientRect().top
       })
     } else {
       setPosition({
@@ -93,17 +98,6 @@ export const Drawing = ({
       })
     }
   }
-
-  useEffect(() => {
-    if (canvasRef.current) {
-      canvasRef.current.style.width = drawingWidth || "100%";
-      canvasRef.current.style.height = drawingHeight || "100%";
-      canvasRef.current.style.background = backgroundColor || "#FFFFFF";
-      canvasRef.current.style.border = border || "inherit";
-      canvasRef.current.width = canvasRef.current.offsetWidth;
-      canvasRef.current.height = canvasRef.current.offsetHeight;
-    }
-  }, [canvasRef.current])
 
   return (
     <canvas
@@ -116,6 +110,7 @@ export const Drawing = ({
       onMouseUp={stopDrawing}
       onMouseLeave={stopDrawing}
       ref={canvasRef}
+      style={styles}
     />
   )
 }

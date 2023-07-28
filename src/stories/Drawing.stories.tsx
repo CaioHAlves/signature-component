@@ -49,10 +49,11 @@ export const Default = Template.bind({})
 Default.args = {
   lineWidth: 5,
   penColor: "green",
-  drawingHeight: "300px",
-  drawingWidth: "300px",
-  backgroundColor: "#FFFFFF",
-  border: "1px solid #000000"
+  drawingHeight: "90%",
+  drawingWidth: "100%",
+  styles: {
+    background: "#ffffff"
+  }
 }
 
 if (divRoot && divRoot.style) {
