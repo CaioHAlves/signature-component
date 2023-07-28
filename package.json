@@ -3,10 +3,8 @@
   "license": "MIT",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
-  "files": [
-    "dist",
-    "src"
-  ],
+  "module": "dist/drawing-react.esm.js",
+  "files": [],
   "engines": {
     "node": ">=10"
   },
@@ -22,33 +20,6 @@
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
   },
-  "peerDependencies": {
-    "react": ">=16"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "tsdx lint"
-    }
-  },
-  "prettier": {
-    "printWidth": 80,
-    "semi": true,
-    "singleQuote": true,
-    "trailingComma": "es5"
-  },
-  "name": "drawing-react",
-  "author": "CaioHAlves",
-  "module": "dist/drawing-react.esm.js",
-  "size-limit": [
-    {
-      "path": "dist/drawing-react.cjs.production.min.js",
-      "limit": "10 KB"
-    },
-    {
-      "path": "dist/drawing-react.esm.js",
-      "limit": "10 KB"
-    }
-  ],
   "devDependencies": {
     "@babel/preset-env": "^7.22.9",
     "@babel/preset-react": "^7.22.5",
@@ -72,5 +43,39 @@
     "tsdx": "^0.14.1",
     "tslib": "^2.6.0",
     "typescript": "^5.1.6"
-  }
+  },
+  "size-limit": [
+    {
+      "path": "dist/drawing-react.cjs.production.min.js",
+      "limit": "50 KB"
+    },
+    {
+      "path": "dist/drawing-react.esm.js",
+      "limit": "50 KB"
+    }
+  ],
+  "peerDependencies": {
+    "react": ">=16"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "tsdx lint"
+    }
+  },
+  "prettier": {
+    "printWidth": 80,
+    "semi": true,
+    "singleQuote": true,
+    "trailingComma": "es5"
+  },
+  "name": "drawing-react",
+  "author": "CaioHAlves",
+  "bugs": {
+    "url": "https://github.com/CaioHAlves/drawing-react/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/CaioHAlves/drawing-react"
+  },
+  "keywords": ["components", "canvas", "drawing-react", "drawing"]
 }
