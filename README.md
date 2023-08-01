@@ -1,27 +1,27 @@
 # Install
 ````bash
-npm i react-signature
+npm i signature-component
 ````
 ````bash
-yarn add react-signature
+yarn add signature-component
 ````
 # Using
 ````js
-import { Drawing, useCanvasActions } from 'react-signature';
+import { Signature, useSignatureActions } from 'signature-component';
 
-const { canvasToDataUrl, clearCanvas } = useCanvasActions()
+  const { getImageSignature, clearSignature } = useSignatureActions()
 
 return (
   <div>
     <div>
-      <button onClick={() => clearCanvas()}>
+      <button onClick={() => clearSignature()}>
         Clear
       </button>
-      <button onClick={() => console.log(canvasToDataUrl())}>
+      <button onClick={() => console.log(getImageSignature())}>
         Get image
       </button>
     </div>
-    <Drawing
+    <Signature
       penColor="#000000"
       width="500px"
       height="500px"
