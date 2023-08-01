@@ -1,2 +1,2 @@
 export * from './signature'
-export * from './useSignatureActions'
+export * from './signatureActions'

@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import { Meta, StoryFn } from '@storybook/react'
 import { Signature, ISignature } from '../signature'
-import { useSignatureActions } from '..'
+import { clearSignature, getImageSignature } from '..'
 
 const ComponentForStorybook = (props: ISignature) => {
 
   const [image, setImage] = useState("")
-  const { getImageSignature, clearSignature } = useSignatureActions()
 
   const click = () => {
     setImage(getImageSignature())
