@@ -1,15 +1,15 @@
 # Install
 ````bash
-npm i drawing-react
+npm i react-signature
 ````
 ````bash
-yarn add drawing-react
+yarn add react-signature
 ````
 # Using
 ````js
-import { Drawing, canvasActions } from 'drawing-react';
+import { Drawing, useCanvasActions } from 'react-signature';
 
-const { canvasToDataUrl, clearCanvas } = canvasActions
+const { canvasToDataUrl, clearCanvas } = useCanvasActions()
 
 return (
   <div>

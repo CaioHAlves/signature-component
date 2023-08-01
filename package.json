@@ -81,6 +81,7 @@
     "components",
     "canvas",
     "react-signature",
-    "drawing"
+    "drawing",
+    "signature"
   ]
 }
