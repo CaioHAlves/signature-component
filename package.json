@@ -1,10 +1,12 @@
 {
-  "version": "0.1.5",
+  "version": "0.1.6",
   "license": "MIT",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "module": "dist/signature-component.esm.js",
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "engines": {
     "node": ">=10"
   },
