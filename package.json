@@ -44,16 +44,6 @@
     "tslib": "^2.6.0",
     "typescript": "^5.1.6"
   },
-  "size-limit": [
-    {
-      "path": "dist/signature-component.cjs.production.min.js",
-      "limit": "50 KB"
-    },
-    {
-      "path": "dist/signature-component.esm.js",
-      "limit": "50 KB"
-    }
-  ],
   "peerDependencies": {
     "react": ">=16"
   },
