@@ -7,9 +7,9 @@ yarn add drawing-react
 ````
 # Using
 ````js
-import { Drawing, useCanvas } from 'drawing-react';
+import { Drawing, canvasActions } from 'drawing-react';
 
-const { canvasToDataUrl, clearCanvas } = useCanvas()
+const { canvasToDataUrl, clearCanvas } = canvasActions
 
 return (
   <div>

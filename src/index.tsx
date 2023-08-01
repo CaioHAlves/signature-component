@@ -8,7 +8,12 @@ export interface Props {
   styles?: CSSProperties
 }
 
-export const useCanvas = () => ({
+interface ICanvasActions {
+  clearCanvas: () => void;
+  canvasToDataUrl: () => string;
+}
+
+export const canvasActions: ICanvasActions = {
   clearCanvas: () => {
     const canvas = document.getElementById("canvasId") as HTMLCanvasElement | null
     const context = canvas ? canvas.getContext("2d") : null
@@ -26,7 +31,7 @@ export const useCanvas = () => ({
       return ""
     }
   }
-})
+}
 
 export const Drawing = ({
   lineWidth,

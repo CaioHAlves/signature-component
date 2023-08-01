@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { Meta, StoryFn } from '@storybook/react'
-import { Drawing, Props, useCanvas } from '..'
+import { Drawing, Props, canvasActions } from '..'
 
 const ComponentForStorybook = (props: Props) => {
 
   const [image, setImage] = useState("")
-  const { canvasToDataUrl, clearCanvas } = useCanvas()
+  const { canvasToDataUrl, clearCanvas } = canvasActions
 
   const click = () => {
     setImage(canvasToDataUrl())
