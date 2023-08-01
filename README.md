@@ -7,7 +7,7 @@ yarn add signature-component
 ````
 # Using
 ````js
-import { Signature, clearSignature, getImageSignature } from 'signature-component';
+import { clearSignature, getImageSignature, Signature } from 'signature-component';
 
 return (
   <div>

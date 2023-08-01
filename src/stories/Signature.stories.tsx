@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Meta, StoryFn } from '@storybook/react'
-import { Signature, ISignature } from '../signature'
-import { clearSignature, getImageSignature } from '..'
+import { clearSignature, getImageSignature, ISignature, Signature } from '..'
 
 const ComponentForStorybook = (props: ISignature) => {
 
