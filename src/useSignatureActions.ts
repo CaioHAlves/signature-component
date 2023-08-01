@@ -1,10 +1,10 @@
-interface ICanvasActions {
-  clearCanvas: () => void;
-  canvasToDataUrl: () => string;
+interface ISignatureActions {
+  clearSignature: () => void;
+  getImageSignature: () => string;
 }
 
-export function useCanvasActions(): ICanvasActions {
-  const clearCanvas = () => {
+export function useSignatureActions(): ISignatureActions {
+  const clearSignature = () => {
     const canvas = document.getElementById("canvasId") as HTMLCanvasElement | null
     const context = canvas ? canvas.getContext("2d") : null
   
@@ -13,7 +13,7 @@ export function useCanvasActions(): ICanvasActions {
     }
   }
 
-  const canvasToDataUrl = () => {
+  const getImageSignature = () => {
     const canvas = document.getElementById("canvasId") as HTMLCanvasElement | null
   
     if (canvas) {
@@ -23,5 +23,5 @@ export function useCanvasActions(): ICanvasActions {
     }
   }
 
-  return { clearCanvas, canvasToDataUrl }
+  return { clearSignature, getImageSignature }
 }

@@ -1,20 +1,20 @@
 import React, { useState } from 'react';
 import { Meta, StoryFn } from '@storybook/react'
-import { Drawing, IDrawing } from '../drawing'
-import { useCanvasActions } from '..'
+import { Signature, ISignature } from '../signature'
+import { useSignatureActions } from '..'
 
-const ComponentForStorybook = (props: IDrawing) => {
+const ComponentForStorybook = (props: ISignature) => {
 
   const [image, setImage] = useState("")
-  const { canvasToDataUrl, clearCanvas } = useCanvasActions()
+  const { getImageSignature, clearSignature } = useSignatureActions()
 
   const click = () => {
-    setImage(canvasToDataUrl())
+    setImage(getImageSignature())
   }
 
   const clear = () => {
     setImage("")
-    clearCanvas()
+    clearSignature()
   }
 
   return (
@@ -28,14 +28,14 @@ const ComponentForStorybook = (props: IDrawing) => {
         </button>
       </div>
       {image ? <img src={image} alt="desenho" style={{ border: "1px solid red" }}/> : null}
-      <Drawing {...props} />
+      <Signature {...props} />
     </>
   )
 }
 
 const meta: Meta = {
   component: ComponentForStorybook,
-  title: "Drawing",
+  title: "Signature",
 }
 
 const divRoot = document.getElementById("storybook-root")
@@ -44,7 +44,7 @@ const bodyEl = document.querySelector("body")
 
 export default meta
 
-const Template: StoryFn<IDrawing> = args => <ComponentForStorybook {...args} />
+const Template: StoryFn<ISignature> = args => <ComponentForStorybook {...args} />
 
 export const Default = Template.bind({})
 

@@ -1,6 +1,6 @@
 import React, { CSSProperties, useEffect, useRef, useState, MouseEvent as ReactMouseEvent, TouchEvent as ReactTouchEvent } from 'react'
 
-export interface IDrawing {
+export interface ISignature {
   lineWidth?: number
   penColor?: string
   width?: string
@@ -8,13 +8,13 @@ export interface IDrawing {
   styles?: CSSProperties
 }
 
-export const Drawing = ({
+export const Signature = ({
   lineWidth,
   height,
   width,
   penColor,
   styles,
-}: IDrawing) => {
+}: ISignature) => {
 
   const canvasRef = useRef<HTMLCanvasElement | null>(null)
   const [drawBool, setDrawBool] = useState(false)
