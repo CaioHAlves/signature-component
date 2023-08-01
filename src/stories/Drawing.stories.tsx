@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { Meta, StoryFn } from '@storybook/react'
-import { Drawing, Props, canvasActions } from '..'
+import { Drawing, IDrawing } from '../drawing'
+import { useCanvasActions } from '..'
 
-const ComponentForStorybook = (props: Props) => {
+const ComponentForStorybook = (props: IDrawing) => {
 
   const [image, setImage] = useState("")
-  const { canvasToDataUrl, clearCanvas } = canvasActions
+  const { canvasToDataUrl, clearCanvas } = useCanvasActions()
 
   const click = () => {
     setImage(canvasToDataUrl())
@@ -43,7 +44,7 @@ const bodyEl = document.querySelector("body")
 
 export default meta
 
-const Template: StoryFn<Props> = args => <ComponentForStorybook {...args} />
+const Template: StoryFn<IDrawing> = args => <ComponentForStorybook {...args} />
 
 export const Default = Template.bind({})
 

@@ -1,9 +1,9 @@
 {
-  "version": "0.1.8",
+  "version": "0.1.0",
   "license": "MIT",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
-  "module": "dist/drawing-react.esm.js",
+  "module": "dist/react-signature.esm.js",
   "files": [],
   "engines": {
     "node": ">=10"
@@ -46,11 +46,11 @@
   },
   "size-limit": [
     {
-      "path": "dist/drawing-react.cjs.production.min.js",
+      "path": "dist/react-signature.cjs.production.min.js",
       "limit": "50 KB"
     },
     {
-      "path": "dist/drawing-react.esm.js",
+      "path": "dist/react-signature.esm.js",
       "limit": "50 KB"
     }
   ],
@@ -68,19 +68,19 @@
     "singleQuote": true,
     "trailingComma": "es5"
   },
-  "name": "drawing-react",
+  "name": "react-signature",
   "author": "CaioHAlves",
   "bugs": {
-    "url": "https://github.com/CaioHAlves/drawing-react/issues"
+    "url": "https://github.com/CaioHAlves/react-signature/issues"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/CaioHAlves/drawing-react"
+    "url": "https://github.com/CaioHAlves/react-signature"
   },
   "keywords": [
     "components",
     "canvas",
-    "drawing-react",
+    "react-signature",
     "drawing"
   ]
 }
