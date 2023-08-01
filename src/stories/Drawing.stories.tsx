@@ -5,10 +5,10 @@ import { Drawing, Props, useCanvas } from '..'
 const ComponentForStorybook = (props: Props) => {
 
   const [image, setImage] = useState("")
-  const { canvasToDataURL, clearCanvas } = useCanvas()
+  const { canvasToDataUrl, clearCanvas } = useCanvas()
 
   const click = () => {
-    setImage(canvasToDataURL())
+    setImage(canvasToDataUrl())
   }
 
   const clear = () => {

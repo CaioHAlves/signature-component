@@ -7,9 +7,9 @@ yarn add drawing-react
 ````
 # Using
 ````js
-import { useCanvas } from 'drawing-react';
+import { Drawing, useCanvas } from 'drawing-react';
 
-const { canvasToDataURL, clearCanvas } = useCanvas()
+const { canvasToDataUrl, clearCanvas } = useCanvas()
 
 return (
   <div>
@@ -17,7 +17,7 @@ return (
       <button onClick={() => clearCanvas()}>
         Clear
       </button>
-      <button onClick={() => console.log(canvasToDataURL())}>
+      <button onClick={() => console.log(canvasToDataUrl())}>
         Get image
       </button>
     </div>

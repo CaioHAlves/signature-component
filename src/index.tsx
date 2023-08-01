@@ -8,17 +8,16 @@ export interface Props {
   styles?: CSSProperties
 }
 
-export function useCanvas() {
-  function clearCanvas() {
+export const useCanvas = () => ({
+  clearCanvas: () => {
     const canvas = document.getElementById("canvasId") as HTMLCanvasElement | null
     const context = canvas ? canvas.getContext("2d") : null
   
     if (context && canvas) {
       context.clearRect(0, 0, canvas.width, canvas.height)
     }
-  }
-  
-  function canvasToDataURL(): string {
+  },
+  canvasToDataUrl: () => {
     const canvas = document.getElementById("canvasId") as HTMLCanvasElement | null
   
     if (canvas) {
@@ -27,9 +26,7 @@ export function useCanvas() {
       return ""
     }
   }
-
-  return { clearCanvas, canvasToDataURL }
-}
+})
 
 export const Drawing = ({
   lineWidth,
