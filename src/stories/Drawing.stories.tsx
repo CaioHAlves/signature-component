@@ -1,18 +1,19 @@
 import React, { useState } from 'react';
 import { Meta, StoryFn } from '@storybook/react'
-import { Drawing, Props, clearDrawing, getImage } from '..'
+import { Drawing, Props, useCanvas } from '..'
 
 const ComponentForStorybook = (props: Props) => {
 
   const [image, setImage] = useState("")
+  const { canvasToDataURL, clearCanvas } = useCanvas()
 
   const click = () => {
-    setImage(getImage())
+    setImage(canvasToDataURL())
   }
 
   const clear = () => {
     setImage("")
-    clearDrawing()
+    clearCanvas()
   }
 
   return (
@@ -49,8 +50,8 @@ export const Default = Template.bind({})
 Default.args = {
   lineWidth: 5,
   penColor: "green",
-  drawingHeight: "90%",
-  drawingWidth: "100%",
+  height: "90%",
+  width: "100%",
   styles: {
     background: "#ffffff"
   }

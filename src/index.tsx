@@ -1,53 +1,77 @@
-import React, { CSSProperties, useEffect, useRef, useState } from 'react';
+import React, { CSSProperties, useEffect, useRef, useState, MouseEvent as ReactMouseEvent, TouchEvent as ReactTouchEvent } from 'react'
+import './index.css'
 
 export interface Props {
-  lineWidth?: number;
+  lineWidth?: number
   penColor?: string
-  drawingWidth?: string;
-  drawingHeight?: string;
+  width?: string
+  height?: string
   styles?: CSSProperties
 }
 
-export function clearDrawing() {
-  const canvas = document.getElementById("canvasId") as HTMLCanvasElement | null
-  const context = canvas ? canvas.getContext("2d") : null
-
-  if (context && canvas) {
-    context.clearRect(0,0, canvas.width, canvas.height)
+export function useCanvas() {
+  function clearCanvas() {
+    const canvas = document.getElementById("canvasId") as HTMLCanvasElement | null
+    const context = canvas ? canvas.getContext("2d") : null
+  
+    if (context && canvas) {
+      context.clearRect(0, 0, canvas.width, canvas.height)
+    }
   }
+  
+  function canvasToDataURL(): string {
+    const canvas = document.getElementById("canvasId") as HTMLCanvasElement | null
+  
+    if (canvas) {
+      return canvas.toDataURL()
+    } else {
+      return ""
+    }
+  }
+
+  return { clearCanvas, canvasToDataURL }
 }
 
-export function getImage(): string {
-  const canvas = document.getElementById("canvasId") as HTMLCanvasElement | null
-
-  if (canvas) {
-    return canvas.toDataURL()
-  } else {
-    return ""
-  }
-}
-
-export const Drawing = ({ 
-  lineWidth, 
-  drawingHeight, 
-  drawingWidth,
+export const Drawing = ({
+  lineWidth,
+  height,
+  width,
   penColor,
-  styles
+  styles,
 }: Props) => {
 
-  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const canvasRef = useRef<HTMLCanvasElement | null>(null)
   const [drawBool, setDrawBool] = useState(false)
-  const [position, setPosition] = useState({ mouseX: 0, mouseY: 0 })
+  const [position, setPosition] = useState({ x: 0, y: 0 })
 
   useEffect(() => {
     if (canvasRef.current) {
-      canvasRef.current.style.width = drawingWidth || "100%";
-      canvasRef.current.style.height = drawingHeight || "100%";
-      canvasRef.current.width = canvasRef.current.offsetWidth;
-      canvasRef.current.height = canvasRef.current.offsetHeight;
+      canvasRef.current.style.width = width || "100%"
+      canvasRef.current.style.height = height || "100%"
+      canvasRef.current.width = canvasRef.current.offsetWidth
+      canvasRef.current.height = canvasRef.current.offsetHeight
     }
-  }, [canvasRef.current, drawingWidth, drawingHeight])
+  }, [canvasRef.current, width, height])
 
+  const mouseDown = (event: ReactMouseEvent<HTMLCanvasElement, MouseEvent>) => {
+    setDrawBool(true)
+    setPosition(getMousePosition(event))
+  }
+  const mouseMove = (event: ReactMouseEvent<HTMLCanvasElement, MouseEvent>) => {
+    setPosition(getMousePosition(event))
+    drawOnCanvas()
+  }
+
+  const touchStart = (event: ReactTouchEvent<HTMLCanvasElement>) => {
+    setDrawBool(true)
+    setPosition(getTouchPosition(event))
+  }
+  const touchMove = (event: ReactTouchEvent<HTMLCanvasElement>) => {
+    drawOnCanvas()
+    setPosition(getTouchPosition(event))
+  }
+
+  // Start or stop drawing on canvas
   const stopDrawing = () => {
     if (canvasRef.current) {
       setDrawBool(false)
@@ -55,57 +79,58 @@ export const Drawing = ({
       context!.beginPath()
     }
   }
-
-  const startDrawing = (e: MouseEvent | TouchEvent) => {
-    setDrawBool(true);
-
-    const context = canvasRef.current!.getContext("2d")
-    context!.beginPath();
-
-    if (e instanceof TouchEvent) {
-      setPosition({
-        mouseX: e.changedTouches[0].clientX - canvasRef.current!.getBoundingClientRect().left,
-        mouseY: e.changedTouches[0].clientY - canvasRef.current!.getBoundingClientRect().top
-      })
-    } else {
-      setPosition({
-        mouseX: e.clientX - canvasRef.current!.getBoundingClientRect().left,
-        mouseY: e.clientY - canvasRef.current!.getBoundingClientRect().top
-      })
-    }
-  }
-
-  const drawOnCanvas = (e: MouseEvent | TouchEvent) => {
+  const drawOnCanvas = () => {
+    window.addEventListener("touchstart", function (e) {
+      if (e.target === canvasRef.current || e.cancelable) {
+        e.preventDefault()
+      }
+    }, {passive: false})
+    window.addEventListener("touchend", function (e) {
+      if (e.target === canvasRef.current || e.cancelable) {
+        e.preventDefault()
+      }
+    }, {passive: false})
+    window.addEventListener("touchmove", function (e) {
+      if (e.target === canvasRef.current || e.cancelable) {
+        e.preventDefault()
+      }
+    }, {passive: false})
 
     if (drawBool && canvasRef.current) {
       const context = canvasRef.current.getContext("2d")!
       context.strokeStyle = penColor || "#000000"
       context.lineWidth = lineWidth || 5
       context.lineCap = "round"
-      context.lineTo(position.mouseX, position.mouseY);
-      context.stroke();
+      context.lineTo(position.x, position.y)
+      context.stroke()
     }
+  }
 
-    if (e instanceof TouchEvent) {
-      setPosition({
-        mouseX: e.changedTouches[0].clientX - canvasRef.current!.getBoundingClientRect().left,
-        mouseY: e.changedTouches[0].clientY - canvasRef.current!.getBoundingClientRect().top
-      })
-    } else {
-      setPosition({
-        mouseX: e.clientX - canvasRef.current!.getBoundingClientRect().left,
-        mouseY: e.clientY - canvasRef.current!.getBoundingClientRect().top
-      })
+  // Get positions of the mouse and touch
+  const getMousePosition = (mouseEvent: ReactMouseEvent<HTMLCanvasElement, MouseEvent>) => {
+    const boundingClient = canvasRef.current!.getBoundingClientRect()
+
+    return {
+      x: mouseEvent.clientX - boundingClient.left,
+      y: mouseEvent.clientY - boundingClient.top
+    }
+  }
+  const getTouchPosition = (event: ReactTouchEvent<HTMLCanvasElement>) => {
+    const boundingClient = canvasRef.current!.getBoundingClientRect()
+
+    return {
+      x: event.touches[0].clientX - boundingClient.left,
+      y: event.touches[0].clientY - boundingClient.top
     }
   }
 
   return (
     <canvas
       id="canvasId"
-      onMouseDown={(e) => startDrawing(e.nativeEvent)}
-      onMouseMove={(e) => drawOnCanvas(e.nativeEvent)}
-      onTouchStart={(e) => startDrawing(e.nativeEvent)}
-      onTouchMove={(e) => drawOnCanvas(e.nativeEvent)}
+      onMouseDown={(e) => mouseDown(e)}
+      onMouseMove={(e) => mouseMove(e)}
+      onTouchStart={(e) => touchStart(e)}
+      onTouchMove={(e) => touchMove(e)}
       onTouchEnd={stopDrawing}
       onMouseUp={stopDrawing}
       onMouseLeave={stopDrawing}

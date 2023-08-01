@@ -7,22 +7,26 @@ yarn add drawing-react
 ````
 # Using
 ````js
-import { Drawing } from 'drawing-react';
+import { useCanvas } from 'drawing-react';
+
+const { canvasToDataURL, clearCanvas } = useCanvas()
 
 return (
-  <Drawing
-    background="#000000"
-  />
-)
-````
-## Clear
-````js
-import { clearDrawing } from 'drawing-react';
-
-return (
-  <button onClick={clearDrawing}>
-    Clear
-  </button>
+  <div>
+    <div>
+      <button onClick={() => clearCanvas()}>
+        Clear
+      </button>
+      <button onClick={() => console.log(canvasToDataURL())}>
+        Get image
+      </button>
+    </div>
+    <Drawing
+      penColor="#000000"
+      width="500px"
+      height="500px"
+    />
+  </div>
 )
 ````
 # Contact
