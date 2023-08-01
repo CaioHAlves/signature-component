@@ -1,5 +1,4 @@
 import React, { CSSProperties, useEffect, useRef, useState, MouseEvent as ReactMouseEvent, TouchEvent as ReactTouchEvent } from 'react'
-import './index.css'
 
 export interface Props {
   lineWidth?: number
@@ -135,7 +134,11 @@ export const Drawing = ({
       onMouseUp={stopDrawing}
       onMouseLeave={stopDrawing}
       ref={canvasRef}
-      style={styles}
+      style={{
+        ...styles,
+        "touchAction": "none",
+        "msTouchAction": "none"
+      }}
     />
   )
 }
