@@ -9,7 +9,11 @@ yarn add signature-component
 ````js
 import { useActions, Signature } from 'signature-component';
 
-const { clearSignature, getImageSignature } = useActions()
+const { clearSignature, getImageSignature, isEmpty } = useActions()
+
+const imageIsEmpty = () => {
+  !isEmpty() ? console.log(getImageSignature()) : console.log("not image!")
+}
 
 return (
   <div>
@@ -17,7 +21,7 @@ return (
       <button onClick={() => clearSignature()}>
         Clear
       </button>
-      <button onClick={() => console.log(getImageSignature())}>
+      <button onClick={imageIsEmpty}>
         Get image
       </button>
     </div>

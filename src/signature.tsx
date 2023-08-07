@@ -22,10 +22,15 @@ export const Signature = ({
 
   useEffect(() => {
     if (canvasRef.current) {
-      canvasRef.current.style.width = width || "100%"
-      canvasRef.current.style.height = height || "100%"
       canvasRef.current.width = canvasRef.current.offsetWidth
       canvasRef.current.height = canvasRef.current.offsetHeight
+      if (width) {
+        canvasRef.current.style.width = width
+      }
+
+      if (height) {
+        canvasRef.current.style.height = height
+      }
     }
   }, [canvasRef.current, width, height])
 
@@ -39,16 +44,32 @@ export const Signature = ({
   }
 
   const touchStart = (event: ReactTouchEvent<HTMLCanvasElement>) => {
+    window.addEventListener("touchstart", function (e) {
+      if (e.target === canvasRef.current) {
+        e.preventDefault()
+      }
+    }, {passive: false})
     setDrawBool(true)
     setPosition(getTouchPosition(event))
   }
   const touchMove = (event: ReactTouchEvent<HTMLCanvasElement>) => {
+    window.addEventListener("touchmove", function (e) {
+      if (e.target === canvasRef.current) {
+        e.preventDefault()
+      }
+    }, {passive: false})
     drawOnCanvas()
     setPosition(getTouchPosition(event))
   }
 
   // Start or stop drawing on canvas
   const stopDrawing = () => {
+    window.addEventListener("touchend", function (e) {
+      if (e.target === canvasRef.current) {
+        e.preventDefault()
+      }
+    })
+
     if (canvasRef.current) {
       setDrawBool(false)
       const context = canvasRef.current.getContext("2d")
@@ -56,26 +77,10 @@ export const Signature = ({
     }
   }
   const drawOnCanvas = () => {
-    window.addEventListener("touchstart", function (e) {
-      if (e.target === canvasRef.current || e.cancelable) {
-        e.preventDefault()
-      }
-    }, {passive: false})
-    window.addEventListener("touchend", function (e) {
-      if (e.target === canvasRef.current || e.cancelable) {
-        e.preventDefault()
-      }
-    }, {passive: false})
-    window.addEventListener("touchmove", function (e) {
-      if (e.target === canvasRef.current || e.cancelable) {
-        e.preventDefault()
-      }
-    }, {passive: false})
-
     if (drawBool && canvasRef.current) {
       const context = canvasRef.current.getContext("2d")!
       context.strokeStyle = penColor || "#000000"
-      context.lineWidth = lineWidth || 5
+      context.lineWidth = lineWidth || 2
       context.lineCap = "round"
       context.lineTo(position.x, position.y)
       context.stroke()
@@ -116,6 +121,6 @@ export const Signature = ({
         "touchAction": "none",
         "msTouchAction": "none"
       }}
-    />
+    ></canvas>
   )
 }
