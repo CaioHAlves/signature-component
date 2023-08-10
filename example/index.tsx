@@ -27,8 +27,8 @@ const App = () => {
       </div>
       {!signature ? null : <img src={signature} alt="" />}
       <Signature
-        height='50%'
-        width='90%'
+        height={500}
+        width={500}
         penColor='blue'
         styles={{
           border: "1px solid red"

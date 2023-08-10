@@ -1,10 +1,11 @@
 import React, { CSSProperties, useEffect, useRef, useState, MouseEvent as ReactMouseEvent, TouchEvent as ReactTouchEvent } from 'react'
+import './styles.css'
 
 export interface ISignature {
   lineWidth?: number
   penColor?: string
-  width?: string
-  height?: string
+  width?: number
+  height?: number
   styles?: CSSProperties
 }
 
@@ -22,15 +23,16 @@ export const Signature = ({
 
   useEffect(() => {
     if (canvasRef.current) {
-      canvasRef.current.width = canvasRef.current.offsetWidth
-      canvasRef.current.height = canvasRef.current.offsetHeight
       if (width) {
-        canvasRef.current.style.width = width
+        canvasRef.current.width = width
       }
 
       if (height) {
-        canvasRef.current.style.height = height
+        canvasRef.current.height = height
       }
+
+      canvasRef.current.width = canvasRef.current.offsetWidth
+      canvasRef.current.height = canvasRef.current.offsetHeight
     }
   }, [canvasRef.current, width, height])
 
@@ -117,9 +119,7 @@ export const Signature = ({
       onMouseLeave={stopDrawing}
       ref={canvasRef}
       style={{
-        ...styles,
-        "touchAction": "none",
-        "msTouchAction": "none"
+        ...styles
       }}
     ></canvas>
   )
