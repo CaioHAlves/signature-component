@@ -109,7 +109,7 @@ export const Signature = ({
 
   return (
     <canvas
-      id="canvasId"
+      id="canvasElement"
       onMouseDown={(e) => mouseDown(e)}
       onMouseMove={(e) => mouseMove(e)}
       onTouchStart={(e) => touchStart(e)}
