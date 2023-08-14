@@ -24,7 +24,8 @@ const App = () => {
       <div>
         <button onClick={handleSignature}>Clear</button>
         <button onClick={getSignature}>Get signature</button>
-        <button onClick={() => changeBackgroundColor("#87CEEB")}>Change color</button>
+        <button onClick={() => changeBackgroundColor("#87CEEB")}>Background Blue</button>
+        <button onClick={() => changeBackgroundColor("#F7F7F7")}>Background Gray</button>
       </div>
       {!signature ? null : <img src={signature} alt="" />}
       <Signature
