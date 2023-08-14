@@ -46,32 +46,16 @@ export const Signature = ({
   }
 
   const touchStart = (event: ReactTouchEvent<HTMLCanvasElement>) => {
-    window.addEventListener("touchstart", function (e) {
-      if (e.target === canvasRef.current) {
-        e.preventDefault()
-      }
-    }, {passive: false})
     setDrawBool(true)
     setPosition(getTouchPosition(event))
   }
   const touchMove = (event: ReactTouchEvent<HTMLCanvasElement>) => {
-    window.addEventListener("touchmove", function (e) {
-      if (e.target === canvasRef.current) {
-        e.preventDefault()
-      }
-    }, {passive: false})
     drawOnCanvas()
     setPosition(getTouchPosition(event))
   }
 
   // Start or stop drawing on canvas
   const stopDrawing = () => {
-    window.addEventListener("touchend", function (e) {
-      if (e.target === canvasRef.current) {
-        e.preventDefault()
-      }
-    })
-
     if (canvasRef.current) {
       setDrawBool(false)
       const context = canvasRef.current.getContext("2d")
@@ -106,6 +90,24 @@ export const Signature = ({
       y: event.touches[0].clientY - boundingClient.top
     }
   }
+
+  window.addEventListener("touchmove", function (e) {
+    if (e.target === canvasRef.current && e.cancelable) {
+      e.preventDefault()
+    }
+  }, {passive: false})
+
+  window.addEventListener("touchstart", function (e) {
+    if (e.target === canvasRef.current && e.cancelable) {
+      e.preventDefault()
+    }
+  }, {passive: false})
+
+  window.addEventListener("touchend", function (e) {
+    if (e.target === canvasRef.current && e.cancelable) {
+      e.preventDefault()
+    }
+  }, {passive: false})
 
   return (
     <canvas
